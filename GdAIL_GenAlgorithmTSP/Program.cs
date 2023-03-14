@@ -13,6 +13,12 @@ namespace Application
             Random random = new Random();
             BaseCities = City.GetCityFromCSV(random);
 
+            Console.WriteLine("Chosen Cities:");
+            foreach (var city in BaseCities)
+            {
+                Console.WriteLine(city.Name);
+            }
+
             //Init
             for (int i = 0; i < Settings.PopulationSize; i++)
                 Population.Add(new Route(random, BaseCities, initRoute: true));
@@ -33,6 +39,14 @@ namespace Application
                     var child = Population.ElementAt(x).Recombine(Population.ElementAt(++x));
                     Population.Add(child);
                 }
+            }
+        }
+
+        static void OutputCities(List<City> cities)
+        {
+            foreach (var city in cities)
+            {
+                Console.WriteLine(city);
             }
         }
     }
