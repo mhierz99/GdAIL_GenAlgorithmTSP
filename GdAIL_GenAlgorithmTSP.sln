@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33513.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GdAIL_GenAlgorithmTSP", "GdAIL_GenAlgorithmTSP\GdAIL_GenAlgorithmTSP.csproj", "{5F1087D9-DC3B-4369-9B6D-3D0651940F21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GdAIL_GenAlgorithmTspTest", "GdAIL_GenAlgorithmTspTest\GdAIL_GenAlgorithmTspTest.csproj", "{EC0B9B2D-7FCD-42C6-8A5C-AFB577D98426}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{5F1087D9-DC3B-4369-9B6D-3D0651940F21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F1087D9-DC3B-4369-9B6D-3D0651940F21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F1087D9-DC3B-4369-9B6D-3D0651940F21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC0B9B2D-7FCD-42C6-8A5C-AFB577D98426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC0B9B2D-7FCD-42C6-8A5C-AFB577D98426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC0B9B2D-7FCD-42C6-8A5C-AFB577D98426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC0B9B2D-7FCD-42C6-8A5C-AFB577D98426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
