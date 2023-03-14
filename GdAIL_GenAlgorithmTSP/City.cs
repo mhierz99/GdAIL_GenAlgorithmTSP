@@ -29,10 +29,10 @@ namespace GdAIL_GenAlgorithmTSP
             return distance / 1000;
         }
 
-        public static LinkedList<City> GetCityFromCSV(Random random)
+        public static List<City> GetCityFromCSV(Random random)
         {
             var csvItems = new List<City>();
-            var cities = new LinkedList<City>();
+            var cities = new List<City>();
             using var reader = new StreamReader(Settings.CsvPath);
 
             if(!reader.EndOfStream) { reader.ReadLine(); }
@@ -53,7 +53,7 @@ namespace GdAIL_GenAlgorithmTSP
             for (int i = 0; i < Settings.CitiesCount; i++)
             {
                 var citieToTransfer = csvItems[random.Next(csvItems.Count-1)];
-                cities.AddLast(citieToTransfer);
+                cities.Add(citieToTransfer);
                 csvItems.Remove(citieToTransfer);
             }
 

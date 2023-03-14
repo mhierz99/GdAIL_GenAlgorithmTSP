@@ -8,35 +8,42 @@ namespace GdAIL_GenAlgorithmTSP
 {
     public class Route
     {
-        public LinkedList<City> Cities;
-        private Random _random; 
+        public static int PopulationCounter = 0;
+        public List<City> Cities;
+        private readonly Random _random; 
 
-        public Route(Random random, LinkedList<City> cities, bool initRoute = true) 
+        public Route(Random random, List<City> cities, bool initRoute = true) 
         {
             _random = random;
-            Cities = new LinkedList<City>();
 
             if(initRoute)
             {
+                Cities = new List<City>();
                 GenerateRandomRoute(cities);
             }
+            else
+                Cities = cities;
+
+            PopulationCounter++;
         }
 
-        public void GenerateRandomRoute(LinkedList<City> cities)
+        public void GenerateRandomRoute(List<City> cities)
         {
             var citiesCount = cities.Count;
             for (int i = 0; i < citiesCount; i++)
             {
                 var cityToTransfer = cities.ElementAt(_random.Next(cities.Count));
-                Cities.AddLast(cityToTransfer);
+                Cities.Add(cityToTransfer);
                 cities.Remove(cityToTransfer);
             }
         }
 
-        public void Mutate()
+        public void Mutate(float mutateRatio)
         {
             throw new NotImplementedException();
         }
+
+        public Route Recombine(Route secondParent) { throw new NotImplementedException(); }
 
         public double GetTotalDistance()
         {
