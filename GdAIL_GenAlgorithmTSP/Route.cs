@@ -10,13 +10,13 @@ namespace GdAIL_GenAlgorithmTSP
     {
         public static int PopulationCounter = 0;
         public List<City> Cities;
-        private readonly Random _random; 
+        private readonly Random _random;
 
-        public Route(Random random, List<City> cities, bool initRoute = true) 
+        public Route(Random random, List<City> cities, bool initRoute = true)
         {
             _random = random;
 
-            if(initRoute)
+            if (initRoute)
             {
                 Cities = new List<City>();
                 GenerateRandomRoute(cities);
@@ -27,8 +27,9 @@ namespace GdAIL_GenAlgorithmTSP
             PopulationCounter++;
         }
 
-        public void GenerateRandomRoute(List<City> cities)
+        public void GenerateRandomRoute(List<City> citiesBase)
         {
+            var cities = new List<City>(citiesBase);
             var citiesCount = cities.Count;
             for (int i = 0; i < citiesCount; i++)
             {
@@ -38,20 +39,19 @@ namespace GdAIL_GenAlgorithmTSP
             }
         }
 
-        private void void Mutate(float mutateRatio)
+        private void Mutate(float mutateRatio)
         {
-            //random beetween 0 and 1
-            float mutateRand = (float)_random.NextDouble(1);
+            float mutateRand = (float)_random.NextDouble();
 
-            if(mutateRand <= mutateRatio)
+            if (mutateRand <= mutateRatio)
                 SwapRandomCities();
 
         }
 
         private void SwapRandomCities()
         {
-            int index1 = _random.Next();
-            int index2 = _random.Next();
+            int index1 = _random.Next(Cities.Count);
+            int index2 = _random.Next(Cities.Count);
 
             var tempObj = Cities.ElementAt(index1);
             Cities[index1] = Cities.ElementAt(index2);
@@ -60,61 +60,77 @@ namespace GdAIL_GenAlgorithmTSP
 
 
         //Recombinine
-        public Route Recombine(Route secondParent) 
+        public Route Recombine(Route secondParent)
         {
-              var combinedCities = new List<City>();
-              const int firstPartCount = 20;
-              const int secondPartCount = 60;
-              const int thirdPartCount = 20;
-              
-              for(int i = 0; i < firstPartCount)
-              {
-                var c = this.Cities.ElementAt(i);
-                combinedCities.Add(c);
-                this.Cities.Remove(c);
-              }
+            var combinedCities = new List<City>();
+            //var usedCities = new HashSet<City>();
 
-              for(int i = 0; i < secondPartCount; i++)
-              {
-                bool insertSuccess = false;
-                int offset = 0;
-                while(insertSuccess == false)
-                {
-                    var c = secondParent.Cities.ElementAt(i + firstPartCount + offset);
-                    if(!combinedCities.Contains(c))
-                    {
-                        combinedCities.Add(c);
-                        secondParent.Cities.Remove(c);
-                        insertSuccess = true;
-                    }
-                    else offset++;
-                }
-              }
-              for(int i = 0; i < thirdPartCount; i++)
-              {
-                bool insertSuccess = false;
-                int offset = 0;
-                while(insertSuccess == false)
-                {
-                    var c = this.Cities.ElementAt(i + firstPartCount + secondPartCount + offset);
-                    if(!combinedCities.Contains(c))
-                    {
-                        combinedCities.Add(c);
-                        this.Cities.Remove(c);
-                        insertSuccess = true;
-                    }
-                    else offset++;
-                }
-              }
+            var cities1 = new List<City>(this.Cities);
+            var cities2 = new List<City>(secondParent.Cities);
 
-              if(combinedCities.Count != 100)
-              {
+            while(combinedCities.Count != 20)
+            {
+                var city = cities1[0];
+                
+                if(!combinedCities.Contains(city))
+                {
+                    combinedCities.Add(city);
+                }
+
+                cities1.Remove(city);
+                cities2.Remove(city);
+            }
+
+            int offset = 0;
+            while(combinedCities.Count != 80)
+            {
+                if (offset >= cities2.Count)
+                    break;
+
+                var city = cities2[offset];
+
+                if (!combinedCities.Contains(city))
+                {
+                    combinedCities.Add(city);
+                }
+                else offset++;
+
+                cities2.Remove(city);
+                cities1.Remove(city);
+            }
+
+            offset = 0;
+            while(combinedCities.Count != 100)
+            {
+                if(offset >= cities1.Count)  
+                    break;
+
+                var city = cities1[offset];
+
+                if (!combinedCities.Contains(city))
+                {
+                    combinedCities.Add(city);
+                }
+                else offset++;
+
+                cities2.Remove(city);
+                cities1.Remove(city);
+            }
+
+            //int counter = 0;
+            //while(combinedCities.Count != 100)
+            //{
+            //    combinedCities.Add(cities1[(counter++)]);
+            //}
+
+            if (combinedCities.Count != 100)
+            {
                 throw new Exception("CityCountException");
-              }
+            }
 
-              var child = new Route(_random, combinedCities, initRoute: false);
-              child.Mutate(Settings.MutationRatio);
-              return child;
+            var child = new Route(_random, combinedCities, initRoute: false);
+            child.Mutate(Settings.MutationRatio);
+            return child;
 
         }
 
@@ -124,7 +140,7 @@ namespace GdAIL_GenAlgorithmTSP
             for (int i = 0; i < Cities.Count - 1; i++)
             {
                 var actualCity = Cities.ElementAt(i);
-                var nextCity = Cities.ElementAt(i +1);
+                var nextCity = Cities.ElementAt(i + 1);
 
                 sum += City.GetDistanceDifference(actualCity, nextCity);
             }

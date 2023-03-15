@@ -18,28 +18,55 @@ namespace Application
             {
                 Console.WriteLine(city.Name);
             }
+            Console.WriteLine("=========================================================");
+
+            double maxDistance = 0;
+            double minDistance = Double.MaxValue;
 
             //Init
             for (int i = 0; i < Settings.PopulationSize; i++)
                 Population.Add(new Route(random, BaseCities, initRoute: true));
 
             //Learning-Loop
-            for (int i = 0;i < Settings.MaxPopulation; i++)
+            for (int i = 0; i < Settings.MaxPopulation; i++)
             {
                 //calculate fitness
                 //order by route quality
                 Population = Population.OrderBy(x => x.GetTotalDistance()).ToList();
 
+                var lastElement = Population.ElementAt(Settings.PopulationSize - 1);
+                if(lastElement.GetTotalDistance() > maxDistance)
+                    maxDistance = lastElement.GetTotalDistance();
+
                 //delete last items
                 Population.RemoveRange(Population.Count - Settings.ErrorThreshold, Settings.ErrorThreshold);
 
                 //Recombine // actual: parents are the ones with highest fitness
-                for (int x = 0; i < Settings.ErrorThreshold * 2; i++)
+                int offset = 0;
+                while(Population.Count != Settings.PopulationSize)
                 {
-                    var child = Population.ElementAt(x).Recombine(Population.ElementAt(++x));
+                    var child = Population.ElementAt(offset).Recombine(Population.ElementAt(++offset));
                     Population.Add(child);
+                    offset++;
                 }
+
+                var firstElement = Population.ElementAt(0);
+
+                if(firstElement.GetTotalDistance() < minDistance) 
+                    minDistance = firstElement.GetTotalDistance();
+
+                Console.WriteLine($"Actual best Route-Distance: {firstElement.GetTotalDistance()} km");
             }
+
+            //Output Result:
+            Population = Population.OrderBy(x => x.GetTotalDistance()).ToList();
+            foreach (var city in Population.ElementAt(0).Cities)
+            {
+                Console.WriteLine(city.Name);
+            }
+            Console.WriteLine($"Total Distance: {Population.ElementAt(0).GetTotalDistance()} km");
+            Console.WriteLine($"Min Distance: {minDistance} km");
+            Console.WriteLine($"Max Distance: {maxDistance} km");
         }
 
         static void OutputCities(List<City> cities)
