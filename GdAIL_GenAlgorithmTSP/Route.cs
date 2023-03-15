@@ -43,7 +43,60 @@ namespace GdAIL_GenAlgorithmTSP
             throw new NotImplementedException();
         }
 
-        public Route Recombine(Route secondParent) { throw new NotImplementedException(); }
+        //Recombinine
+        public Route Recombine(Route secondParent) 
+        {
+              var combinedCities = new List<City>();
+              const int firstPartCount = 20;
+              const int secondPartCount = 60;
+              const int thirdPartCount = 20;
+              
+              for(int i = 0; i < firstPartCount)
+              {
+                var c = this.Cities.ElementAt(i);
+                combinedCities.Add(c);
+                this.Cities.Remove(c);
+              }
+
+              for(int i = 0; i < secondPartCount; i++)
+              {
+                bool insertSuccess = false;
+                int offset = 0;
+                while(insertSuccess == false)
+                {
+                    var c = secondParent.Cities.ElementAt(i + firstPartCount + offset);
+                    if(!combinedCities.Contains(c))
+                    {
+                        combinedCities.Add(c);
+                        secondParent.Cities.Remove(c);
+                        insertSuccess = true;
+                    }
+                    else offset++;
+                }
+              }
+              for(int i = 0; i < thirdPartCount; i++)
+              {
+                bool insertSuccess = false;
+                int offset = 0;
+                while(insertSuccess == false)
+                {
+                    var c = this.Cities.ElementAt(i + firstPartCount + secondPartCount + offset);
+                    if(!combinedCities.Contains(c))
+                    {
+                        combinedCities.Add(c);
+                        this.Cities.Remove(c);
+                        insertSuccess = true;
+                    }
+                    else offset++;
+                }
+              }
+
+              if(combinedCities.Count != 100)
+              {
+                throw new Exception("CityCountException");
+              }
+
+        }
 
         public double GetTotalDistance()
         {
