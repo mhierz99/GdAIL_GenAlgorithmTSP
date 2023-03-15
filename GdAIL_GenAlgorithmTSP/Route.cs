@@ -40,7 +40,13 @@ namespace GdAIL_GenAlgorithmTSP
 
         public void Mutate(float mutateRatio)
         {
-            throw new NotImplementedException();
+            //random beetween 0 and 1
+            float mutateRand = (float)_random.NextDouble(1);
+
+            if(mutateRand <= mutateRatio)
+            {
+                
+            }
         }
 
         //Recombinine
