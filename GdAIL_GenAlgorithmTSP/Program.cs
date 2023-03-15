@@ -18,7 +18,7 @@ namespace Application
             {
                 Console.WriteLine(city.Name);
             }
-            Console.WriteLine("=========================================================");
+            Console.WriteLine("=========================================================\n");
 
             double maxDistance = 0;
             double minDistance = Double.MaxValue;
