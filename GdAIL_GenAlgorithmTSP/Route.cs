@@ -45,7 +45,7 @@ namespace GdAIL_GenAlgorithmTSP
 
             if(mutateRand <= mutateRatio)
                 SwapRandomCities();
-                
+
         }
 
         private void SwapRandomCities()
@@ -111,6 +111,10 @@ namespace GdAIL_GenAlgorithmTSP
               {
                 throw new Exception("CityCountException");
               }
+
+              var child = new Route(_random, combinedCities, initRoute: false);
+              child.Mutate(Settings.MutationRatio);
+              return child;
 
         }
 
