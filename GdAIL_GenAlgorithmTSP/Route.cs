@@ -38,16 +38,26 @@ namespace GdAIL_GenAlgorithmTSP
             }
         }
 
-        public void Mutate(float mutateRatio)
+        private void void Mutate(float mutateRatio)
         {
             //random beetween 0 and 1
             float mutateRand = (float)_random.NextDouble(1);
 
             if(mutateRand <= mutateRatio)
-            {
+                SwapRandomCities();
                 
-            }
         }
+
+        private void SwapRandomCities()
+        {
+            int index1 = _random.Next();
+            int index2 = _random.Next();
+
+            var tempObj = Cities.ElementAt(index1);
+            Cities[index1] = Cities.ElementAt(index2);
+            Cities[index2] = tempObj;
+        }
+
 
         //Recombinine
         public Route Recombine(Route secondParent) 
