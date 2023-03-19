@@ -1,5 +1,6 @@
 ﻿using GdAIL_GenAlgorithmTSP;
 using System;
+using System.Diagnostics;
 
 namespace Application
 {
@@ -12,6 +13,8 @@ namespace Application
         {
             Random random = new Random();
             BaseCities = City.GetCityFromCSV(random);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             Console.WriteLine("Chosen Cities:");
             foreach (var city in BaseCities)
@@ -67,6 +70,8 @@ namespace Application
             Console.WriteLine($"Total Distance: {Population.ElementAt(0).GetTotalDistance()} km");
             Console.WriteLine($"Min Distance: {minDistance} km");
             Console.WriteLine($"Max Distance: {maxDistance} km");
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed.ToString());
         }
 
         static void OutputCities(List<City> cities)

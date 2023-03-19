@@ -17,7 +17,7 @@ namespace GdAIL_GenAlgorithmTSP
             var theta1 = city1.Latitude * Math.PI / 180;
             var theta2 = city2.Latitude * Math.PI / 180;
             var deltaTheta = (city2.Latitude - city1.Latitude) * Math.PI / 180;
-            var deltaLambda = (city2.Longitude - city2.Longitude) * Math.PI / 180;
+            var deltaLambda = (city2.Longitude - city1.Longitude) * Math.PI / 180;
 
             var a = Math.Sin(deltaTheta / 2) * Math.Sin(deltaTheta / 2) +
                 Math.Cos(theta1) * Math.Cos(theta2) +
@@ -50,11 +50,17 @@ namespace GdAIL_GenAlgorithmTSP
                 });
             }
 
-            for (int i = 0; i < Settings.CitiesCount; i++)
+            //for (int i = 0; i < Settings.CitiesCount; i++)
+            //{
+            //    var citieToTransfer = csvItems[random.Next(csvItems.Count-1)];
+            //    cities.Add(citieToTransfer);
+            //    csvItems.Remove(citieToTransfer);
+            //}
+
+            for(int i= 0; i< Settings.CitiesCount;i++)
             {
-                var citieToTransfer = csvItems[random.Next(csvItems.Count-1)];
-                cities.Add(citieToTransfer);
-                csvItems.Remove(citieToTransfer);
+                var citiesToTransfer = csvItems[i];
+                cities.Add(citiesToTransfer);
             }
 
             return cities;
