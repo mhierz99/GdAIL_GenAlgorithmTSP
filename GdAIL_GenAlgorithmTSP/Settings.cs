@@ -11,7 +11,7 @@ namespace GdAIL_GenAlgorithmTSP
         public const string CsvPath = "european.csv";
         public const int CitiesCount = 100;
         public const int PopulationSize = 20;
-        public const int MaxPopulation = 1000;
+        public const int MaxPopulation = 5000;
         public const float MutationRatio = 1f;
         public const int ErrorThreshold = 2;
     }
